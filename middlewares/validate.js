@@ -3,7 +3,7 @@ const { body, validationResult } = require("express-validator");
 const sanitizeHtml = require("sanitize-html");
 
 /**
- * Validation + sanitization
+ * Validation + sanitization middleware for POST /submit
  * - Validates name, email, phone, terms
  * - Ensures req.file exists (Multer should run before this)
  * - Sanitizes textual fields using sanitize-html (no tags allowed)

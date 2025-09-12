@@ -1,3 +1,4 @@
+//routes/index.js
 const express = require("express");
 const router = express.Router();
 const connectToDB = require("../config/db");
@@ -7,10 +8,11 @@ const {
 } = require("../models/submissionModel");
 const upload = require("../middlewares/upload");
 const formController = require("../controllers/formController");
+const { submitValidationRules } = require("../middlewares/validate");
 
 // Temporary GET /
 router.get("/", (req, res) => {
-  res.render("form", { errors: null });
+  res.render("form", { errors: null, old: {} });
 });
 
 // Test DB connection
@@ -50,6 +52,17 @@ router.get("/test-submission", async (req, res) => {
   }
 });
 
-router.post("/submit", upload.single("image"), formController.submitForm);
+// POST /submit route with upload and validation middlewares
+router.post(
+  "/submit",
+  upload.single("image"),
+  submitValidationRules,
+  formController.submitForm
+);
+
+router.get("/submissions", async (req, res) => {
+  const submissions = await getAllSubmissions();
+  res.render("submissions", { submissions });
+});
 
 module.exports = router;
