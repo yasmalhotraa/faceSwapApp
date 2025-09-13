@@ -1,16 +1,13 @@
-//routes/index.js
 const express = require("express");
 const router = express.Router();
 const connectToDB = require("../config/db");
-const {
-  insertSubmission,
-  getAllSubmissions,
-} = require("../models/submissionModel");
+const { insertSubmission } = require("../models/submissionModel");
 const upload = require("../middlewares/upload");
 const formController = require("../controllers/formController");
 const { submitValidationRules } = require("../middlewares/validate");
+const submissionController = require("../controllers/submissionController");
 
-// Temporary GET /
+// Home form
 router.get("/", (req, res) => {
   res.render("form", { errors: null, old: {} });
 });
@@ -31,6 +28,7 @@ router.get("/testdb", async (req, res) => {
   }
 });
 
+// Quick test insert
 router.get("/test-submission", async (req, res) => {
   try {
     const newSubmission = {
@@ -42,17 +40,15 @@ router.get("/test-submission", async (req, res) => {
       swappedImage: "swapped.jpg",
       createdAt: new Date(),
     };
-
     const id = await insertSubmission(newSubmission);
-    const all = await getAllSubmissions();
-    res.send({ insertedId: id, submissions: all });
+    res.send({ insertedId: id });
   } catch (err) {
     console.error(err);
     res.status(500).send("Test Submission Failed");
   }
 });
 
-// POST /submit route with upload and validation middlewares
+// Handle form submission
 router.post(
   "/submit",
   upload.single("image"),
@@ -60,9 +56,7 @@ router.post(
   formController.submitForm
 );
 
-router.get("/submissions", async (req, res) => {
-  const submissions = await getAllSubmissions();
-  res.render("submissions", { submissions });
-});
+// List all submissions (now using controller)
+router.get("/submissions", submissionController.getSubmissionsPage);
 
 module.exports = router;

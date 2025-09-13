@@ -84,7 +84,6 @@ const submitForm = async (req, res) => {
 
     let swappedUrl;
 
-    // TEMPORARILY DISABLE FALLBACK TO SEE THE REAL ERROR
     try {
       console.log("🎭 Starting face swap process...");
       const apiResult = await faceSwapAPI(file.path, styleUrl);
