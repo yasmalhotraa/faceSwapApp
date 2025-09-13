@@ -1,47 +1,43 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Face Swap Form</title>
-  </head>
-  <body>
-    <h1>Submit Your Info</h1>
+<%- include('partials/header', { title: 'Submit Info', pageCSS: 'form.css' }) %>
 
-    <% if (errors && errors.length > 0) { %>
-    <ul style="color: red">
-      <% errors.forEach(err => { %>
-      <li><%= err.msg %></li>
-      <% }) %>
-    </ul>
-    <% } %>
+<h2>Submit Your Info</h2>
 
-    <form action="/submit" method="POST" enctype="multipart/form-data">
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        value="<%= old?.name || '' %>"
-        required
-      /><br />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value="<%= old?.email || '' %>"
-        required
-      /><br />
-      <input
-        type="text"
-        name="phone"
-        placeholder="Phone"
-        value="<%= old?.phone || '' %>"
-        required
-      /><br />
-      <label>
-        <input type="checkbox" name="terms" <%= old?.terms ? "checked" : "" %>
-        /> Accept Terms </label
-      ><br />
-      <input type="file" name="image" accept="image/*" required /><br />
-      <button type="submit">Submit</button>
-    </form>
-  </body>
-</html>
+<% if (errors && errors.length > 0) { %>
+<ul class="errors">
+  <% errors.forEach(err => { %>
+  <li><%= err.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<form action="/submit" method="POST" enctype="multipart/form-data">
+  <input
+    type="text"
+    name="name"
+    placeholder="Name"
+    value="<%= old?.name || '' %>"
+    required
+  />
+  <input
+    type="email"
+    name="email"
+    placeholder="Email"
+    value="<%= old?.email || '' %>"
+    required
+  />
+  <input
+    type="text"
+    name="phone"
+    placeholder="Phone"
+    value="<%= old?.phone || '' %>"
+    required
+  />
+  <label>
+    <input type="checkbox" name="terms" <%= old?.terms ? "checked" : "" %> />
+    Accept Terms
+  </label>
+  <input type="file" name="image" accept="image/*" required />
+  <button type="submit">Submit</button>
+</form>
+
+<%- include('partials/footer') %>

@@ -1,99 +1,89 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>All Submissions</title>
-    <link rel="stylesheet" href="/css/submissions.css" />
-  </head>
-  <body>
-    <div class="header">
-      <h1>🎭 Face Swap Submissions</h1>
-      <p>All your amazing face swap transformations</p>
-    </div>
+<%- include('partials/header', { title: 'All Submissions', pageCSS:
+'submissions.css' }) %>
 
-    <div class="stats">
-      <strong
-        >📊 Total Submissions: <%= submissions ? submissions.length : 0
-        %></strong
-      >
-    </div>
+<div class="stats">
+  <strong>
+    📊 Total Submissions: <%= submissions ? submissions.length : 0 %>
+  </strong>
+</div>
 
-    <% if (submissions && submissions.length > 0) { %>
-    <table>
-      <thead>
-        <tr>
-          <th>👤 Name</th>
-          <th>📧 Email</th>
-          <th>📱 Phone</th>
-          <th>✅ Terms</th>
-          <th>📸 Original Image</th>
-          <th>🎭 Swapped Image</th>
-          <th>📅 Created At</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% submissions.forEach(sub => { %>
-        <tr>
-          <td data-label="Name"><strong><%= sub.name %></strong></td>
-          <td data-label="Email"><%= sub.email %></td>
-          <td data-label="Phone"><%= sub.phone %></td>
-          <td data-label="Terms">
-            <span class="status-icon">
-              <%= sub.termsAccepted ? "✅" : "❌" %>
-            </span>
-          </td>
-          <td data-label="Original Image" class="image-cell">
-            <div>
-              <img
-                src="<%= sub.originalImage %>"
-                alt="Original"
-                class="image-preview"
-              />
-            </div>
-            <div>
-              <a
-                href="<%= sub.originalImage %>"
-                download="original_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
-                class="download-btn"
-              >
-                📥 Download Original
-              </a>
-            </div>
-          </td>
-          <td data-label="Swapped Image" class="image-cell">
-            <div>
-              <img
-                src="<%= sub.swappedImage %>"
-                alt="Swapped"
-                class="image-preview"
-              />
-            </div>
-            <div>
-              <a
-                href="<%= sub.swappedImage %>"
-                download="swapped_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
-                class="download-btn swapped"
-              >
-                🎭 Download Swapped
-              </a>
-            </div>
-          </td>
-          <td data-label="Created At">
-            <%= new Date(sub.createdAt).toLocaleString() %>
-          </td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
-    <% } else { %>
-    <div class="no-submissions">
-      <h2>📭 No submissions yet</h2>
-      <p>Be the first to submit your photo for a face swap!</p>
-      <a href="/" class="back-btn">🚀 Submit Your Photo</a>
-    </div>
-    <% } %>
+<% if (submissions && submissions.length > 0) { %>
+<table>
+  <thead>
+    <tr>
+      <th>👤 Name</th>
+      <th>📧 Email</th>
+      <th>📱 Phone</th>
+      <th>✅ Terms</th>
+      <th>📸 Original Image</th>
+      <th>🎭 Swapped Image</th>
+      <th>📅 Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% submissions.forEach(sub => { %>
+    <tr>
+      <td data-label="Name"><strong><%= sub.name %></strong></td>
+      <td data-label="Email"><%= sub.email %></td>
+      <td data-label="Phone"><%= sub.phone %></td>
+      <td data-label="Terms">
+        <span class="status-icon">
+          <%= sub.termsAccepted ? "✅" : "❌" %>
+        </span>
+      </td>
+      <td data-label="Original Image" class="image-cell">
+        <div>
+          <img
+            src="<%= sub.originalImage %>"
+            alt="Original"
+            class="image-preview"
+          />
+        </div>
+        <div>
+          <a
+            href="<%= sub.originalImage %>"
+            download="original_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
+            class="download-btn"
+          >
+            📥 Download Original
+          </a>
+        </div>
+      </td>
+      <td data-label="Swapped Image" class="image-cell">
+        <div>
+          <img
+            src="<%= sub.swappedImage %>"
+            alt="Swapped"
+            class="image-preview"
+          />
+        </div>
+        <div>
+          <a
+            href="<%= sub.swappedImage %>"
+            download="swapped_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
+            class="download-btn swapped"
+          >
+            🎭 Download Swapped
+          </a>
+        </div>
+      </td>
+      <td data-label="Created At">
+        <%= new Date(sub.createdAt).toLocaleString() %>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+<% } else { %>
+<div class="no-submissions">
+  <h2>📭 No submissions yet</h2>
+  <p>Be the first to submit your photo for a face swap!</p>
+  <a href="/" class="back-btn">🚀 Submit Your Photo</a>
+</div>
+<% } %>
 
-    <div style="text-align: center; margin-top: 30px">
-      <a href="/" class="back-btn">➕ Add New Submission</a>
-    </div>
-  </body>
-</html>
+<div style="text-align: center; margin-top: 30px">
+  <a href="/" class="back-btn">➕ Add New Submission</a>
+</div>
+
+<%- include('partials/footer') %>
