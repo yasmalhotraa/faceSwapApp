@@ -3,9 +3,6 @@
 const axios = require("axios");
 const fs = require("fs");
 
-// -------------------------
-// Upload a local image file to LightX
-// -------------------------
 async function uploadToLightX(filePath) {
   console.log(`📤 Starting upload for: ${filePath}`);
 
@@ -17,7 +14,6 @@ async function uploadToLightX(filePath) {
   const size = stats.size;
   console.log(`📊 File size: ${size} bytes`);
 
-  // 1️⃣ Request a signed S3 upload URL
   console.log("🔗 Requesting upload URL from LightX...");
   const { data } = await axios.post(
     "https://api.lightxeditor.com/external/api/v2/uploadImageUrl",
@@ -43,7 +39,6 @@ async function uploadToLightX(filePath) {
   const uploadImageUrl = data.body.uploadImage;
   const hostedImageUrl = data.body.imageUrl;
 
-  // 2️⃣ PUT the image file to S3
   console.log("📤 Uploading file to S3...");
   const imageBuffer = fs.readFileSync(filePath);
   const uploadResponse = await axios.put(uploadImageUrl, imageBuffer, {
@@ -58,9 +53,8 @@ async function uploadToLightX(filePath) {
   return hostedImageUrl;
 }
 
-// -------------------------
-// Perform Face Swap
-// -------------------------
+// Performing Face Swap
+
 async function faceSwapAPI(originalFilePath, styleImageUrl) {
   try {
     console.log("🔄 Starting face swap process...");
@@ -103,7 +97,7 @@ async function faceSwapAPI(originalFilePath, styleImageUrl) {
 
     // 3️⃣ Poll until swap is completed
     let swappedUrl = null;
-    const maxAttempts = 30; // 30 * 3s ≈ 90 seconds
+    const maxAttempts = 5; // 5 * 3s = 15s max wait time
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       console.log(`🔄 Polling attempt ${attempt}/${maxAttempts}...`);
       await new Promise((resolve) => setTimeout(resolve, 3000));
