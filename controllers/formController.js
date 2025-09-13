@@ -100,31 +100,6 @@ const submitForm = async (req, res) => {
     } catch (err) {
       console.error("❌ Face swap failed with error:", err.message);
       throw new Error(`Face swap failed: ${err.message}`);
-
-      // UNCOMMENT THIS BLOCK ONCE FACE SWAP IS WORKING:
-      /*
-      console.warn("Face swap failed, using placeholder copy.");
-      const swappedFilename = `swapped-${file.filename}`;
-      const originalPath = path.join(
-        __dirname,
-        "../public/uploads/original",
-        file.filename
-      );
-      const swappedPath = path.join(
-        __dirname,
-        "../public/uploads/swapped",
-        swappedFilename
-      );
-      
-      // Ensure swapped directory exists
-      const swappedDir = path.dirname(swappedPath);
-      if (!fs.existsSync(swappedDir)) {
-        fs.mkdirSync(swappedDir, { recursive: true });
-      }
-      
-      fs.copyFileSync(originalPath, swappedPath);
-      swappedUrl = `${baseUrl}/uploads/swapped/${swappedFilename}`;
-      */
     }
 
     const submission = {
