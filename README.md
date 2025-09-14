@@ -22,7 +22,7 @@ npm install
 
 3.Environment variables
 
-### Create a .env file in the project root with:
+#### Create a .env file in the project root with:
 PORT=3000
 DB_NAME=faceSwapApp
 MONGO_URI=mongodb+srv://faceSwapUser:Qazplm_q1w2e3r4@faceswapcluster.c4nshrh.mongodb.net/faceSwapApp?retryWrites=true&w=majority
@@ -30,6 +30,7 @@ LIGHTX_API_KEY=ceb88cbf2eda408199d7f92e3052a94f_7693d4e4c4eb415d83424c222bf73777
 STYLE_IMAGE_URL=https://d3aa3s3yhl0emm.cloudfront.net/apikey/abac7f6c22574a00adeffdf6302fd7ba.jpeg
 CLOUD_NAME=drftrqonq
 CLOUD_API_KEY=969575441753812
+CLOUD_API_SECRET=5gguJSzJiYdjpTvMPf70qb0Nekk
 
 
 4. Run the app
@@ -38,5 +39,6 @@ CLOUD_API_KEY=969575441753812
 npm start
 ```
 Open http://localhost:3000 in your browser.
+
 
 
