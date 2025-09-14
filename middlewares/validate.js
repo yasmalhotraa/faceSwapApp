@@ -2,14 +2,6 @@
 const { body, validationResult } = require("express-validator");
 const sanitizeHtml = require("sanitize-html");
 
-/**
- * Validation + sanitization middleware for POST /submit
- * - Validates name, email, phone, terms
- * - Ensures req.file exists (Multer should run before this)
- * - Sanitizes textual fields using sanitize-html (no tags allowed)
- * - If errors: renders the form view with errors (server-rendered flow)
- */
-
 const submitValidationRules = [
   // Name: alphabet + spaces only, length 4-30
   body("name")
@@ -48,24 +40,21 @@ const submitValidationRules = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // Convert to simple array for the view
       const extractedErrors = errors
         .array()
         .map((err) => ({ param: err.param, msg: err.msg }));
-      // render the form again with errors and old values (server-rendered)
+
       return res
         .status(400)
         .render("form", { errors: extractedErrors, old: req.body });
     }
 
-    // Ensure file uploaded (Multer runs before this middleware)
+    // Ensure file uploaded
     if (!req.file) {
-      return res
-        .status(400)
-        .render("form", {
-          errors: [{ param: "image", msg: "Image is required" }],
-          old: req.body,
-        });
+      return res.status(400).render("form", {
+        errors: [{ param: "image", msg: "Image is required" }],
+        old: req.body,
+      });
     }
 
     // Sanitization: strip HTML tags completely and ensure strings

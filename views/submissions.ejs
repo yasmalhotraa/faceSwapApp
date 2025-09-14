@@ -8,69 +8,71 @@
 </div>
 
 <% if (submissions && submissions.length > 0) { %>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Original Image</th>
-      <th>Swapped Image</th>
-      <th>Created At</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% submissions.forEach(sub => { %>
-    <tr>
-      <td data-label="Name"><strong><%= sub.name %></strong></td>
-      <td data-label="Email"><%= sub.email %></td>
-      <td data-label="Phone"><%= sub.phone %></td>
+<div class="submissions-grid">
+  <% submissions.forEach(sub => { %>
+  <div class="submission-card">
+    <!-- Card Content -->
+    <div class="card-content">
+      <div class="card-info">
+        <div class="info-row">
+          <span class="info-label">Name</span>
+          <span class="info-value"><%= sub.name %></span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value email"><%= sub.email %></span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Phone</span>
+          <span class="info-value"><%= sub.phone %></span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Submitted</span>
+          <span class="info-value"
+            ><%= new Date(sub.createdAt).toLocaleString() %></span
+          >
+        </div>
+      </div>
 
-      <!-- Original Image -->
-      <td data-label="Original Image" class="image-cell">
-        <div>
+      <!-- Image Previews -->
+      <div class="card-image">
+        <div class="image-preview-container">
           <img
             src="<%= sub.originalImage %>"
             alt="Original"
             class="image-preview"
+            onclick="window.open(this.src, '_blank')"
           />
         </div>
-        <div>
-          <a
-            href="/download?url=<%= encodeURIComponent(sub.originalImage) %>&name=original_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
-            class="download-btn"
-          >
-            Download
-          </a>
-        </div>
-      </td>
-
-      <!-- Swapped Image -->
-      <td data-label="Swapped Image" class="image-cell">
-        <div>
+        <div class="image-preview-container">
           <img
             src="<%= sub.swappedImage %>"
             alt="Swapped"
             class="image-preview"
+            onclick="window.open(this.src, '_blank')"
           />
         </div>
-        <div>
-          <a
-            href="/download?url=<%= encodeURIComponent(sub.swappedImage) %>&name=swapped_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
-            class="download-btn swapped"
-          >
-            Download
-          </a>
-        </div>
-      </td>
+      </div>
+    </div>
 
-      <td data-label="Created At">
-        <%= new Date(sub.createdAt).toLocaleString() %>
-      </td>
-    </tr>
-    <% }) %>
-  </tbody>
-</table>
+    <!-- Card Actions -->
+    <div class="card-actions">
+      <a
+        href="/download?url=<%= encodeURIComponent(sub.originalImage) %>&name=original_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
+        class="action-btn secondary"
+      >
+        Download Original
+      </a>
+      <a
+        href="/download?url=<%= encodeURIComponent(sub.swappedImage) %>&name=swapped_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
+        class="action-btn"
+      >
+        Download Swapped
+      </a>
+    </div>
+  </div>
+  <% }) %>
+</div>
 <% } else { %>
 <div class="no-submissions">
   <h2>📭 No submissions yet</h2>

@@ -1,7 +1,5 @@
-/* terms.css - Minimal styling for Terms & Conditions page */
-
 /* Page container */
-.container {
+.terms-container {
   max-width: 800px;
   margin: 0px auto;
   padding: 20px;
@@ -12,7 +10,7 @@
 }
 
 /* Headings */
-h1 {
+.terms-title {
   font-size: 2rem;
   margin-bottom: 20px;
   color: #ffd700;
@@ -21,33 +19,58 @@ h1 {
 }
 
 /* Paragraphs */
-p {
+.terms-intro,
+.terms-outro {
   font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 20px;
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Lists */
-ol,
-ul {
+/* Main terms list (ordered list) */
+.terms-list {
   margin: 15px 0 20px 20px;
   padding-left: 0;
   color: rgba(255, 255, 255, 0.9);
+  counter-reset: terms-counter;
 }
 
-li {
-  margin-bottom: 10px;
+/* Main terms list items */
+.terms-item {
+  margin-bottom: 15px;
+  padding-left: 0;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
 }
 
-/* Links */
-a {
+/* Sub-lists (unordered lists within terms items) */
+.terms-sublist {
+  margin: 10px 0 15px 20px;
+  padding-left: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Sub-list items */
+.terms-subitem {
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+/* Strong text within terms */
+.terms-item strong {
+  color: #ffd700;
+  font-weight: 600;
+}
+
+/* Links within terms */
+.terms-container a:not(.btn) {
   color: #ffed4e;
   text-decoration: underline;
   transition: color 0.3s ease;
 }
 
-a:hover {
+.terms-container a:not(.btn):hover {
   color: #ffd700;
 }
 
@@ -67,4 +90,24 @@ a:hover {
 .btn:hover {
   background: rgba(255, 215, 0, 0.4);
   transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .terms-container {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .terms-title {
+    font-size: 1.5rem;
+  }
+
+  .terms-list {
+    margin-left: 15px;
+  }
+
+  .terms-sublist {
+    margin-left: 15px;
+  }
 }

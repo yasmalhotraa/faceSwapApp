@@ -67,9 +67,11 @@
 /* Modern Card-Based Layout (Replaces Table) */
 .submissions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
   gap: 25px;
-  margin-top: 30px;
+  margin: 30px auto;
+  width: 95%;
+  max-width: 1600px;
 }
 
 .submission-card {
@@ -85,11 +87,29 @@
   border: 1px solid rgba(255, 215, 0, 0.15);
   border-radius: 25px;
   padding: 25px;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(255, 215, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  animation: cardAppear 0.5s ease-out;
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.submission-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .submission-card::before {
@@ -121,86 +141,6 @@
     rgba(255, 215, 0, 0.08) 100%
   );
   border-color: rgba(255, 215, 0, 0.25);
-}
-
-/* Card Header */
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid rgba(255, 215, 0, 0.15);
-}
-
-.card-id {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: rgba(255, 215, 0, 0.8);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 215, 0, 0.1),
-    rgba(139, 69, 19, 0.08)
-  );
-  padding: 6px 12px;
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 215, 0, 0.2);
-}
-
-.card-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.status-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  backdrop-filter: blur(15px);
-  border: 1px solid;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.status-badge.processed {
-  background: linear-gradient(
-    135deg,
-    rgba(76, 175, 80, 0.9),
-    rgba(102, 187, 106, 0.8)
-  );
-  color: #fff;
-  border-color: rgba(76, 175, 80, 0.6);
-  box-shadow: 0 2px 10px rgba(76, 175, 80, 0.3);
-}
-
-.status-badge.pending {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 193, 7, 0.9),
-    rgba(255, 215, 0, 0.8)
-  );
-  color: #1a1a1a;
-  border-color: rgba(255, 193, 7, 0.6);
-  box-shadow: 0 2px 10px rgba(255, 193, 7, 0.3);
-}
-
-.status-badge.error {
-  background: linear-gradient(
-    135deg,
-    rgba(244, 67, 54, 0.9),
-    rgba(255, 82, 82, 0.8)
-  );
-  color: #fff;
-  border-color: rgba(244, 67, 54, 0.6);
-  box-shadow: 0 2px 10px rgba(244, 67, 54, 0.3);
 }
 
 /* Card Content */
@@ -351,8 +291,7 @@
 /* Card Actions */
 .card-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 15px;
   justify-content: center;
   padding-top: 15px;
   border-top: 1px solid rgba(255, 215, 0, 0.15);
@@ -361,6 +300,8 @@
 .action-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  flex: 1;
   gap: 6px;
   background: linear-gradient(
     135deg,
@@ -368,12 +309,12 @@
     rgba(255, 193, 7, 0.9)
   );
   color: #1a1a1a;
-  padding: 10px 16px;
+  padding: 12px 24px;
   text-decoration: none;
   border-radius: 15px;
   font-size: 0.85rem;
   font-weight: 700;
-  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 215, 0, 0.4);
   box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
@@ -382,6 +323,8 @@
   position: relative;
   overflow: hidden;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  min-width: 160px;
+  max-width: calc(50% - 8px);
 }
 
 .action-btn:hover {
@@ -393,27 +336,6 @@
   );
   color: #000;
   border-color: rgba(255, 215, 0, 0.6);
-}
-
-.action-btn.danger {
-  background: linear-gradient(
-    135deg,
-    rgba(244, 67, 54, 0.9),
-    rgba(255, 82, 82, 0.9)
-  );
-  color: #fff;
-  border-color: rgba(244, 67, 54, 0.4);
-  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
-}
-
-.action-btn.danger:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(244, 67, 54, 1),
-    rgba(255, 82, 82, 1)
-  );
-  box-shadow: 0 8px 25px rgba(244, 67, 54, 0.5);
-  border-color: rgba(244, 67, 54, 0.6);
 }
 
 .action-btn.secondary {
@@ -749,137 +671,135 @@ tr:last-child td:last-child {
 
 /* Tablets & small laptops (≤ 992px) */
 @media (max-width: 992px) {
+  .submissions-grid {
+    width: 98%;
+    gap: 20px;
+  }
+
   .submission-card {
     padding: 1.5rem;
   }
 
   .stats {
-    flex-wrap: wrap;
-    gap: 1rem;
+    width: 95%;
+    padding: 25px;
   }
 
-  .stats div {
-    flex: 1 1 calc(50% - 1rem);
-    padding: 1.2rem;
+  .stats strong {
+    font-size: 1.4rem;
   }
 
-  th,
-  td {
-    padding: 10px 12px;
+  .card-content {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .card-image {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .image-preview {
+    width: 100%;
+    height: 150px;
+  }
+
+  .action-btn {
+    padding: 12px 20px;
     font-size: 0.9rem;
-  }
-
-  .action-btn,
-  .download-btn {
-    font-size: 0.9rem;
-    padding: 8px 12px;
   }
 }
 
 /* Mobile Landscape & Portrait (≤ 768px) */
 @media (max-width: 768px) {
-  .submission-card {
-    padding: 1.2rem;
-    margin: 1rem 0;
-  }
-
-  .stats {
-    flex-direction: column;
-  }
-
-  .stats div {
-    flex: 1 1 100%;
-    padding: 1rem;
-  }
-
-  th,
-  td {
-    padding: 8px 10px;
-    font-size: 0.85rem;
-  }
-
-  .action-btn,
-  .download-btn {
+  .submissions-grid {
     width: 100%;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
+    gap: 15px;
     padding: 10px;
   }
 
-  .no-submissions {
-    font-size: 1rem;
-    padding: 1.5rem;
+  .submission-card {
+    padding: 1.2rem;
   }
 
-  /* Convert table to card layout */
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
+  .card-info {
+    gap: 15px;
+  }
+
+  .info-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .card-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .action-btn {
     width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
   }
 
-  thead {
-    display: none;
+  .no-submissions {
+    padding: 40px 20px;
   }
 
-  tr {
-    margin-bottom: 1rem;
-    background: rgba(255, 215, 0, 0.05);
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    border-radius: 12px;
-    padding: 12px;
-  }
-
-  td {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border: none;
-    font-size: 0.9rem;
-  }
-
-  td::before {
-    content: attr(data-label);
-    font-weight: 600;
-    color: #ffd700;
-    flex-basis: 40%;
-    text-align: left;
+  .no-submissions h2 {
+    font-size: 1.8rem;
   }
 }
 
 /* Extra Small Devices (≤ 480px) */
 @media (max-width: 480px) {
-  .submission-card {
-    padding: 1rem;
-    border-radius: 12px;
-  }
-
-  .stats div {
-    padding: 0.8rem;
+  .stats {
+    padding: 20px;
+    margin-bottom: 20px;
   }
 
   .stats strong {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
-  th,
-  td {
-    font-size: 0.8rem;
-    padding: 6px 8px;
+  .submission-card {
+    padding: 1rem;
+    border-radius: 15px;
   }
 
-  .action-btn,
-  .download-btn {
+  .info-label {
     font-size: 0.8rem;
-    padding: 8px;
-    border-radius: 8px;
+  }
+
+  .info-value {
+    font-size: 0.9rem;
+  }
+
+  .image-preview {
+    height: 120px;
+  }
+
+  .action-btn {
+    font-size: 0.85rem;
+    padding: 10px 16px;
   }
 
   .no-submissions {
+    padding: 30px 15px;
+  }
+
+  .no-submissions h2 {
+    font-size: 1.5rem;
+  }
+
+  .no-submissions p {
+    font-size: 1rem;
+  }
+
+  .back-btn {
+    padding: 12px 24px;
     font-size: 0.9rem;
   }
 }

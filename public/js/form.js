@@ -157,6 +157,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Apply camera mirroring based on facing mode
+  function applyCameraMirroring(facingMode) {
+    if (cameraVideo) {
+      if (facingMode === "user") {
+        // mirror for front camera
+        cameraVideo.style.transform = "scaleX(-1)";
+      } else {
+        // no mirror for back camera
+        cameraVideo.style.transform = "scaleX(1)";
+      }
+    }
+  }
+
   // Camera functions
   async function startCamera(facingMode) {
     try {
@@ -175,6 +188,9 @@ document.addEventListener("DOMContentLoaded", function () {
       currentStream = await navigator.mediaDevices.getUserMedia(constraints);
       cameraVideo.srcObject = currentStream;
       currentFacingMode = facingMode;
+
+      // Apply mirroring based on camera type
+      applyCameraMirroring(facingMode);
 
       // Update title
       if (cameraTitle) {
@@ -197,6 +213,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if (cameraVideo) {
       cameraVideo.srcObject = null;
+      // Reset transform when stopping camera
+      cameraVideo.style.transform = "scaleX(1)";
     }
   }
 
@@ -219,7 +237,14 @@ document.addEventListener("DOMContentLoaded", function () {
     canvas.height = video.videoHeight;
 
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0);
+
+    // Handle mirroring for front camera
+    if (currentFacingMode === "user") {
+      ctx.scale(-1, 1);
+      ctx.drawImage(video, -canvas.width, 0);
+    } else {
+      ctx.drawImage(video, 0, 0);
+    }
 
     canvas.toBlob(
       (blob) => {
