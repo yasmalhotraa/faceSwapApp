@@ -17,7 +17,6 @@ The swapped image and user record are stored in MongoDB and displayed on a submi
 2. **Install dependencies**
 
 ```bash
-Copy code
 npm install
 ```
 
@@ -39,4 +38,5 @@ CLOUD_API_KEY=969575441753812
 npm start
 ```
 Open http://localhost:3000 in your browser.
+
 
