@@ -8,8 +8,20 @@ const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
 
-// ✅ Security & Body Parsing
-app.use(helmet());
+//for Content Security Policy
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+      },
+    },
+  })
+);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

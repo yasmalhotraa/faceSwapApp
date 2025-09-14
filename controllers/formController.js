@@ -1,54 +1,26 @@
-// controllers/formController.js
-const path = require("path");
-const fs = require("fs");
 const axios = require("axios");
+const cloudinary = require("../config/cloud");
 const { insertSubmission } = require("../models/submissionModel");
 const { faceSwapAPI } = require("../services/faceSwapService");
 
-// Function to download and save swapped image locally
-async function downloadSwappedImage(swappedUrl, originalFilename) {
+// Upload swapped image to Cloudinary
+async function uploadSwappedImageToCloudinary(swappedUrl) {
   try {
-    console.log("📥 Downloading swapped image from:", swappedUrl);
+    const timestamp = Date.now();
+    const randomNum = Math.round(Math.random() * 1e9);
+    const publicId = `face-swap/swapped/swapped-${timestamp}-${randomNum}`;
 
-    // Create swapped directory if it doesn't exist
-    const swappedDir = path.join(__dirname, "../public/uploads/swapped");
-    if (!fs.existsSync(swappedDir)) {
-      fs.mkdirSync(swappedDir, { recursive: true });
-    }
-
-    // Generate filename for swapped image
-    const ext = path.extname(originalFilename) || ".jpg";
-    const baseName = path.basename(originalFilename, ext);
-    const swappedFilename = `swapped-${baseName}${ext}`;
-    const swappedPath = path.join(swappedDir, swappedFilename);
-
-    // Download the image
-    const response = await axios.get(swappedUrl, {
-      responseType: "stream",
-      timeout: 30000,
-      headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; FaceSwapApp/1.0)",
-      },
+    const uploadResult = await cloudinary.uploader.upload(swappedUrl, {
+      public_id: publicId,
+      folder: "face-swap/swapped",
+      resource_type: "image",
     });
 
-    // Save the image
-    const writer = fs.createWriteStream(swappedPath);
-    response.data.pipe(writer);
-
-    // Wait for the download to complete
-    await new Promise((resolve, reject) => {
-      writer.on("finish", resolve);
-      writer.on("error", reject);
-    });
-
-    console.log("✅ Swapped image saved locally:", swappedPath);
-
-    // Return local URL
-    const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-    return `${baseUrl}/uploads/swapped/${swappedFilename}`;
+    console.log("✅ Swapped image uploaded:", uploadResult.secure_url);
+    return uploadResult.secure_url;
   } catch (error) {
-    console.error("❌ Failed to download swapped image:", error.message);
-    return swappedUrl; // Return original URL as fallback
+    console.error("❌ Failed to upload swapped image:", error.message);
+    return swappedUrl; // fallback
   }
 }
 
@@ -57,47 +29,22 @@ const submitForm = async (req, res) => {
     const { name, email, phone, terms } = req.body;
     const file = req.file;
 
-    console.log("📝 Form submission received:");
-    console.log("- Name:", name);
-    console.log("- Email:", email);
-    console.log("- Phone:", phone);
-    console.log("- Terms:", terms);
-    console.log(
-      "- File:",
-      file
-        ? {
-            filename: file.filename,
-            size: file.size,
-            mimetype: file.mimetype,
-            path: file.path,
-          }
-        : "No file"
-    );
+    if (!file || !file.secure_url) {
+      throw new Error("Original image upload failed");
+    }
 
-    const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-    const originalUrl = `${baseUrl}/uploads/original/${file.filename}`;
+    const originalUrl = file.secure_url; // Use secure_url for display
     const styleUrl = process.env.STYLE_IMAGE_URL;
 
-    console.log("🔗 URLs:");
-    console.log("- Original:", originalUrl);
-    console.log("- Style:", styleUrl);
+    console.log("🔗 URLs:", { originalUrl, styleUrl });
 
+    // Perform face swap
     let swappedUrl;
-
     try {
-      console.log("🎭 Starting face swap process...");
-      const apiResult = await faceSwapAPI(file.path, styleUrl);
-      const externalSwappedUrl = apiResult.outputUrl;
-      console.log("✅ Face swap successful:", externalSwappedUrl);
-
-      // Download and save the swapped image locally
-      swappedUrl = await downloadSwappedImage(
-        externalSwappedUrl,
-        file.filename
-      );
-      console.log("💾 Swapped image saved locally:", swappedUrl);
+      const apiResult = await faceSwapAPI(originalUrl, styleUrl);
+      swappedUrl = await uploadSwappedImageToCloudinary(apiResult.outputUrl);
     } catch (err) {
-      console.error("❌ Face swap failed with error:", err.message);
+      console.error("❌ Face swap failed:", err.message);
       throw new Error(`Face swap failed: ${err.message}`);
     }
 
@@ -106,32 +53,15 @@ const submitForm = async (req, res) => {
       email: email.trim(),
       phone: phone.trim(),
       termsAccepted: terms === "on" || terms === true,
-      originalImage: originalUrl,
-      swappedImage: swappedUrl,
+      originalImage: originalUrl, // secure_url
+      swappedImage: swappedUrl, // secure_url
       createdAt: new Date(),
     };
 
-    console.log("💾 Saving submission to database:", submission);
     await insertSubmission(submission);
-
-    console.log(
-      "✅ Submission saved successfully, redirecting to /submissions"
-    );
     return res.redirect("/submissions");
   } catch (err) {
     console.error("💥 submitForm error:", err.message);
-    console.error("Stack trace:", err.stack);
-
-    // Clean up uploaded file if submission fails
-    if (req.file && fs.existsSync(req.file.path)) {
-      try {
-        fs.unlinkSync(req.file.path);
-        console.log("🗑️ Cleaned up uploaded file");
-      } catch (cleanupErr) {
-        console.error("Failed to cleanup file:", cleanupErr.message);
-      }
-    }
-
     return res.status(500).render("form", {
       errors: [{ param: "server", msg: `Submission failed: ${err.message}` }],
       old: req.body || {},

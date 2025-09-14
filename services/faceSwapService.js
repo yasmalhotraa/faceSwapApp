@@ -1,77 +1,26 @@
 // services/faceSwapService.js
-
 const axios = require("axios");
-const fs = require("fs");
 
-async function uploadToLightX(filePath) {
-  console.log(`📤 Starting upload for: ${filePath}`);
-
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`File does not exist: ${filePath}`);
-  }
-
-  const stats = fs.statSync(filePath);
-  const size = stats.size;
-  console.log(`📊 File size: ${size} bytes`);
-
-  console.log("🔗 Requesting upload URL from LightX...");
-  const { data } = await axios.post(
-    "https://api.lightxeditor.com/external/api/v2/uploadImageUrl",
-    {
-      uploadType: "imageUrl",
-      size,
-      contentType: "image/jpeg",
-    },
-    {
-      headers: {
-        "x-api-key": process.env.LIGHTX_API_KEY,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  console.log("✅ Upload URL response:", data);
-
-  if (!data.body || !data.body.uploadImage || !data.body.imageUrl) {
-    throw new Error("Invalid upload URL response from LightX");
-  }
-
-  const uploadImageUrl = data.body.uploadImage;
-  const hostedImageUrl = data.body.imageUrl;
-
-  console.log("📤 Uploading file to S3...");
-  const imageBuffer = fs.readFileSync(filePath);
-  const uploadResponse = await axios.put(uploadImageUrl, imageBuffer, {
-    headers: {
-      "Content-Type": "image/jpeg",
-      "Content-Length": imageBuffer.length,
-    },
-  });
-  console.log(`✅ S3 Upload status: ${uploadResponse.status}`);
-
-  console.log(`🌐 Hosted image URL: ${hostedImageUrl}`);
-  return hostedImageUrl;
-}
+// Since we're now receiving Cloudinary URLs, we don't need the uploadToLightX function
+// The original image is already hosted on Cloudinary and accessible via URL
 
 // Performing Face Swap
-
-async function faceSwapAPI(originalFilePath, styleImageUrl) {
+async function faceSwapAPI(originalImageUrl, styleImageUrl) {
   try {
     console.log("🔄 Starting face swap process...");
-    console.log(`📸 Original image: ${originalFilePath}`);
-    console.log(`🎭 Style image: ${styleImageUrl}`);
+    console.log(`📸 Original image URL: ${originalImageUrl}`);
+    console.log(`🎭 Style image URL: ${styleImageUrl}`);
     console.log(
       `🔑 API Key: ${process.env.LIGHTX_API_KEY ? "Present" : "Missing"}`
     );
 
-    // 1️⃣ Upload original image to LightX
-    console.log("Step 1: Uploading original image...");
-    const uploadedOriginalUrl = await uploadToLightX(originalFilePath);
+    // The original image is already hosted on Cloudinary, so we can use it directly
+    console.log("Step 1: Using Cloudinary-hosted original image...");
 
-    // 2️⃣ Create Face Swap order
+    // Create Face Swap order
     console.log("Step 2: Calling Face Swap API...");
     const swapPayload = {
-      imageUrl: uploadedOriginalUrl,
+      imageUrl: originalImageUrl, // This is now the Cloudinary URL
       styleImageUrl: styleImageUrl,
     };
     console.log("🚀 Face swap payload:", swapPayload);
@@ -95,7 +44,7 @@ async function faceSwapAPI(originalFilePath, styleImageUrl) {
 
     console.log(`⏳ Order ID: ${orderId}, starting polling...`);
 
-    // 3️⃣ Poll until swap is completed
+    // Poll until swap is completed
     let swappedUrl = null;
     const maxAttempts = 5; // 5 * 3s = 15s max wait time
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {

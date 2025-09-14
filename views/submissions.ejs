@@ -11,13 +11,12 @@
 <table>
   <thead>
     <tr>
-      <th>👤 Name</th>
-      <th>📧 Email</th>
-      <th>📱 Phone</th>
-      <th>✅ Terms</th>
-      <th>📸 Original Image</th>
-      <th>🎭 Swapped Image</th>
-      <th>📅 Created At</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Original Image</th>
+      <th>Swapped Image</th>
+      <th>Created At</th>
     </tr>
   </thead>
   <tbody>
@@ -26,11 +25,8 @@
       <td data-label="Name"><strong><%= sub.name %></strong></td>
       <td data-label="Email"><%= sub.email %></td>
       <td data-label="Phone"><%= sub.phone %></td>
-      <td data-label="Terms">
-        <span class="status-icon">
-          <%= sub.termsAccepted ? "✅" : "❌" %>
-        </span>
-      </td>
+
+      <!-- Original Image -->
       <td data-label="Original Image" class="image-cell">
         <div>
           <img
@@ -41,14 +37,15 @@
         </div>
         <div>
           <a
-            href="<%= sub.originalImage %>"
-            download="original_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
+            href="/download?url=<%= encodeURIComponent(sub.originalImage) %>&name=original_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
             class="download-btn"
           >
-            📥 Download Original
+            Download
           </a>
         </div>
       </td>
+
+      <!-- Swapped Image -->
       <td data-label="Swapped Image" class="image-cell">
         <div>
           <img
@@ -59,14 +56,14 @@
         </div>
         <div>
           <a
-            href="<%= sub.swappedImage %>"
-            download="swapped_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
+            href="/download?url=<%= encodeURIComponent(sub.swappedImage) %>&name=swapped_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
             class="download-btn swapped"
           >
-            🎭 Download Swapped
+            Download
           </a>
         </div>
       </td>
+
       <td data-label="Created At">
         <%= new Date(sub.createdAt).toLocaleString() %>
       </td>
