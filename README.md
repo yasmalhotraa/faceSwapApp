@@ -10,20 +10,21 @@ The swapped image and user record are stored in MongoDB and displayed on a submi
 ## Setup Instructions
 
 1. **Clone the repository**
-   ```bash
+   ```
    git clone https://github.com/yasmalhotraa/faceSwapApp.git
    cd faceSwapApp
    
 2. **Install dependencies**
 
-```bash
+```
 npm install
 ```
 
 3.Environment variables
 
 #### Create a .env file in the project root with:
-```PORT=3000
+```
+PORT=3000
 DB_NAME=faceSwapApp
 MONGO_URI=mongodb+srv://faceSwapUser:Qazplm_q1w2e3r4@faceswapcluster.c4nshrh.mongodb.net/faceSwapApp?retryWrites=true&w=majority
 LIGHTX_API_KEY=ceb88cbf2eda408199d7f92e3052a94f_7693d4e4c4eb415d83424c222bf73777_andoraitools
@@ -36,10 +37,11 @@ CLOUD_API_SECRET=5gguJSzJiYdjpTvMPf70qb0Nekk
 
 4. Run the app
 
-```bash
+```
 npm start
 ```
 Open http://localhost:3000 in your browser.
+
 
 
 
