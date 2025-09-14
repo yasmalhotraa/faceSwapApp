@@ -313,7 +313,7 @@ body::before {
 
 /* Main wrapper */
 .site-main {
-  padding: 20px 20px 60px 20px;
+  padding: 20px;
 }
 
 /* Enhanced Glass Card */
@@ -446,17 +446,30 @@ body::after {
   }
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .site-header .container {
-    flex-direction: column;
-    gap: 20px;
+/* ========== Responsive Design for Global.css ========== */
+
+/* Tablets & small laptops (≤ 992px) */
+@media (max-width: 992px) {
+  body {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .container {
+    max-width: 95%;
+    padding: 0 15px;
+  }
+
+  .site-header {
+    padding: 15px 0;
+  }
+
+  .site-header .logo a {
+    font-size: 1.8rem;
   }
 
   .nav ul {
     gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
   }
 
   .nav a {
@@ -464,28 +477,89 @@ body::after {
     font-size: 1rem;
   }
 
-  .site-header .logo a {
-    font-size: 1.8rem;
-  }
-
-  .container {
-    padding: 0 15px;
+  .glass-card {
+    padding: 18px;
+    border-radius: 20px;
   }
 }
 
-@media (max-width: 480px) {
-  .nav ul {
+/* Mobile Landscape & Portrait (≤ 768px) */
+@media (max-width: 768px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  .site-header .container {
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .nav ul {
+    flex-wrap: wrap; /* allow wrapping */
+    justify-content: center;
+    gap: 12px;
     width: 100%;
+  }
+
+  .nav li {
+    flex: 1 1 auto; /* let each link resize nicely */
+    text-align: center;
   }
 
   .nav a {
-    text-align: center;
-    width: 100%;
+    display: block; /* make them block buttons */
+    width: 100%; /* take full width */
+    max-width: 250px; /* but don’t get too wide */
+    margin: 0 auto; /* center them */
+  }
+
+  .site-footer {
+    padding: 30px 15px;
+    font-size: 0.85rem;
+  }
+
+  .glass-card {
+    margin: 15px 0;
+    padding: 15px;
+  }
+
+  .site-main {
+    padding: 10px;
+  }
+}
+
+/* Extra Small Devices (≤ 480px) */
+@media (max-width: 480px) {
+  body {
+    font-size: 0.85rem;
   }
 
   .site-header .logo a {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .nav ul {
+    flex-direction: column; /* stack vertically */
+    gap: 10px;
+  }
+
+  .nav a {
+    width: 100%; /* full width buttons */
+    padding: 12px;
+  }
+
+  .glass-card {
+    border-radius: 15px;
+    padding: 12px;
+  }
+
+  .site-footer {
+    padding: 20px 10px;
+    font-size: 0.8rem;
+  }
+  .site-main {
+    padding: 10px;
   }
 }

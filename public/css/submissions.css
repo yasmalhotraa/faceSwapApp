@@ -915,64 +915,71 @@ tr:last-child td:last-child {
   }
 }
 
-/* Mobile Responsive Design */
-@media (max-width: 768px) {
-  .stats {
-    padding: 25px 20px;
-  }
-
-  .stats strong {
-    font-size: 1.4rem;
-  }
-
-  .submissions-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
+/* Tablets & small laptops (≤ 992px) */
+@media (max-width: 992px) {
   .submission-card {
-    padding: 20px;
+    padding: 1.5rem;
   }
 
-  .card-content {
-    grid-template-columns: 1fr;
-    gap: 15px;
+  .stats {
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 
-  .card-image {
-    align-self: center;
-    justify-self: center;
+  .stats div {
+    flex: 1 1 calc(50% - 1rem);
+    padding: 1.2rem;
   }
 
-  .image-preview {
-    width: 80px;
-    height: 80px;
+  th,
+  td {
+    padding: 10px 12px;
+    font-size: 0.9rem;
   }
 
-  .image-placeholder {
-    width: 80px;
-    height: 80px;
-    font-size: 1.5rem;
+  .action-btn,
+  .download-btn {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+}
+
+/* Mobile Landscape & Portrait (≤ 768px) */
+@media (max-width: 768px) {
+  .submission-card {
+    padding: 1.2rem;
+    margin: 1rem 0;
   }
 
-  .action-btn {
-    padding: 8px 14px;
-    font-size: 0.8rem;
+  .stats {
+    flex-direction: column;
+  }
+
+  .stats div {
+    flex: 1 1 100%;
+    padding: 1rem;
+  }
+
+  th,
+  td {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .action-btn,
+  .download-btn {
+    width: 100%;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    padding: 10px;
   }
 
   .no-submissions {
-    padding: 80px 30px;
+    font-size: 1rem;
+    padding: 1.5rem;
   }
 
-  .no-submissions h2 {
-    font-size: 2rem;
-  }
-
-  .no-submissions p {
-    font-size: 1.1rem;
-  }
-
-  /* Mobile table fallback */
+  /* Convert table to card layout */
   table,
   thead,
   tbody,
@@ -980,134 +987,67 @@ tr:last-child td:last-child {
   td,
   tr {
     display: block;
+    width: 100%;
   }
 
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
+  thead {
+    display: none;
   }
 
   tr {
-    backdrop-filter: blur(25px) saturate(150%);
-    background: rgba(255, 215, 0, 0.06);
+    margin-bottom: 1rem;
+    background: rgba(255, 215, 0, 0.05);
     border: 1px solid rgba(255, 215, 0, 0.2);
-    border-radius: 20px;
-    margin: 20px 0;
-    padding: 20px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    position: relative;
-  }
-
-  tr::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 215, 0, 0.6),
-      transparent
-    );
-    border-radius: 20px 20px 0 0;
+    border-radius: 12px;
+    padding: 12px;
   }
 
   td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
     border: none;
-    position: relative;
-    padding: 12px 10px 12px 45% !important;
-    text-align: left;
-    background: transparent;
+    font-size: 0.9rem;
   }
 
-  td:before {
-    content: attr(data-label) ": ";
-    position: absolute;
-    left: 10px;
-    width: 40%;
-    padding-right: 10px;
-    white-space: nowrap;
-    font-weight: 800;
+  td::before {
+    content: attr(data-label);
+    font-weight: 600;
     color: #ffd700;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    text-shadow: 0 1px 8px rgba(255, 215, 0, 0.4);
+    flex-basis: 40%;
+    text-align: left;
   }
 }
 
+/* Extra Small Devices (≤ 480px) */
 @media (max-width: 480px) {
-  .stats {
-    padding: 20px 15px;
+  .submission-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .stats div {
+    padding: 0.8rem;
   }
 
   .stats strong {
     font-size: 1.2rem;
   }
 
-  .submission-card {
-    padding: 15px;
-  }
-
-  .card-header {
-    flex-direction: column;
-    gap: 10px;
-    align-items: stretch;
-  }
-
-  .card-id,
-  .card-status {
-    text-align: center;
-  }
-
-  .info-row {
-    gap: 2px;
-  }
-
-  .info-label {
+  th,
+  td {
     font-size: 0.8rem;
+    padding: 6px 8px;
   }
 
-  .info-value {
-    font-size: 0.9rem;
-  }
-
-  .action-btn {
-    padding: 6px 12px;
-    font-size: 0.75rem;
+  .action-btn,
+  .download-btn {
+    font-size: 0.8rem;
+    padding: 8px;
+    border-radius: 8px;
   }
 
   .no-submissions {
-    padding: 60px 20px;
-  }
-
-  .no-submissions h2 {
-    font-size: 1.8rem;
-  }
-
-  .no-submissions p {
-    font-size: 1rem;
-  }
-
-  .back-btn {
-    padding: 16px 28px;
-    font-size: 1rem;
-  }
-
-  td {
-    padding: 10px 8px 10px 40% !important;
-  }
-
-  td:before {
-    width: 35%;
-    font-size: 0.75rem;
-    left: 8px;
-  }
-
-  tr {
-    padding: 15px;
+    font-size: 0.9rem;
   }
 }

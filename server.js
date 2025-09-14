@@ -27,7 +27,7 @@ app.use(express.json());
 
 // ✅ Static files
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static("public/uploads")); // serve uploaded files
+app.use("/uploads", express.static("public/uploads"));
 
 // ✅ View engine
 app.set("view engine", "ejs");
@@ -36,7 +36,7 @@ app.set("views", path.join(__dirname, "views"));
 // ✅ Routes
 app.use("/", routes);
 
-// ✅ Centralized Error Handler (AFTER all routes)
+// ✅ Centralized Error Handler
 app.use(errorHandler);
 
 // ✅ Start Server
