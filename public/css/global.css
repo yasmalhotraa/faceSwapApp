@@ -17,7 +17,7 @@ body {
     #1c1c3c
   );
   background-size: cover;
-  min-height: 100vh;
+  min-height: 100dvh;
   color: rgba(255, 255, 255, 0.9);
   overflow-x: hidden;
   position: relative;
@@ -185,20 +185,19 @@ body::before {
     gap: 12px;
   }
   .nav ul {
-    flex-wrap: wrap;
+    display: flex;
+    flex-wrap: nowrap;
     justify-content: center;
     gap: 12px;
     width: 100%;
   }
   .nav li {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     text-align: center;
   }
   .nav a {
-    display: block;
-    width: 100%;
-    max-width: 250px;
-    margin: 0 auto;
+    display: inline-block;
+    margin: 0;
   }
   .glass-card {
     margin: 12px 0;
@@ -210,17 +209,32 @@ body::before {
   .site-header .logo a {
     font-size: 1.4rem;
   }
+
   .nav ul {
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
     gap: 8px;
+    width: 100%;
   }
+
+  .nav li {
+    flex: 0 1 auto;
+    text-align: center;
+  }
+
   .nav a {
+    display: inline-block;
     padding: 10px;
+    margin: 0;
   }
+
   .glass-card {
     border-radius: 15px;
     padding: 15px;
   }
+
   .site-footer {
     font-size: 0.8rem;
     padding: 20px 10px;

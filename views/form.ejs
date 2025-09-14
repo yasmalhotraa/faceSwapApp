@@ -5,67 +5,141 @@
     <h2>Submit Your Info</h2>
 
     <% if (errors && errors.length > 0) { %>
-    <ul class="errors">
+    <ul class="errors server-errors">
       <% errors.forEach(err => { %>
       <li><%= err.msg %></li>
       <% }) %>
     </ul>
     <% } %>
 
-    <form action="/submit" method="POST" enctype="multipart/form-data">
+    <form
+      action="/submit"
+      method="POST"
+      enctype="multipart/form-data"
+      id="submitForm"
+    >
       <div class="form-group">
         <input
           type="text"
           name="name"
+          id="name"
           placeholder="Name"
           value="<%= old?.name || '' %>"
           required
         />
+        <div class="field-error" id="name-error"></div>
       </div>
 
       <div class="form-group">
         <input
           type="email"
           name="email"
+          id="email"
           placeholder="Email"
           value="<%= old?.email || '' %>"
           required
         />
+        <div class="field-error" id="email-error"></div>
       </div>
 
       <div class="form-group">
         <input
           type="text"
           name="phone"
+          id="phone"
           placeholder="Phone"
           value="<%= old?.phone || '' %>"
+          maxlength="10"
+          pattern="[0-9]*"
+          inputmode="numeric"
           required
         />
+        <div class="field-error" id="phone-error"></div>
       </div>
 
       <div class="form-group terms">
         <label>
-          <input type="checkbox" name="terms" <%= old?.terms ? "checked" : "" %>
-          required /> I accept the
+          <input type="checkbox" name="terms" id="terms" <%= old?.terms ?
+          "checked" : "" %> required /> I accept the
           <a class="termsLink" href="/terms" target="_blank"
             >Terms & Conditions</a
           >
         </label>
+        <div class="field-error" id="terms-error"></div>
       </div>
 
+      <!-- Image Capture Section -->
       <div class="form-group">
-        <label for="image">Upload Image (JPG, JPEG, PNG | Max 2MB)</label>
+        <label>Upload or Capture Image (JPG, JPEG, PNG | Max 2MB)</label>
+
+        <!-- Image Input Options -->
+        <div class="image-input-options">
+          <button type="button" id="frontCameraBtn" class="btn-secondary">
+            Front Camera
+          </button>
+          <button type="button" id="backCameraBtn" class="btn-secondary">
+            Back Camera
+          </button>
+          <label for="imageFile" class="btn-secondary file-upload-btn"
+            >Upload from Device</label
+          >
+        </div>
+
+        <!-- Hidden file input -->
         <input
           type="file"
           name="image"
+          id="imageFile"
           accept="image/png, image/jpeg, image/jpg"
-          required
+          style="display: none"
         />
+
+        <!-- Camera Modal -->
+        <div id="cameraModal" class="camera-modal" style="display: none">
+          <div class="camera-modal-content">
+            <div class="camera-header">
+              <h3 id="cameraTitle">Camera</h3>
+              <button type="button" id="closeCameraBtn" class="close-btn">
+                &times;
+              </button>
+            </div>
+            <div class="camera-container">
+              <video id="cameraVideo" autoplay playsinline></video>
+              <canvas id="cameraCanvas" style="display: none"></canvas>
+            </div>
+            <div class="camera-controls">
+              <button type="button" id="switchCameraBtn" class="btn-secondary">
+                Switch Camera
+              </button>
+              <button type="button" id="captureBtn" class="btn">
+                Capture Photo
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Preview -->
+        <div id="imagePreview" class="image-preview" style="display: none">
+          <h4>Image Preview:</h4>
+          <img id="previewImg" src="" alt="Image preview" />
+          <div class="preview-controls">
+            <button type="button" id="removeImageBtn" class="btn-danger">
+              Remove Image
+            </button>
+            <button type="button" id="retakeBtn" class="btn-secondary">
+              Retake/Choose Another
+            </button>
+          </div>
+        </div>
+
+        <div class="field-error" id="image-error"></div>
       </div>
 
-      <button type="submit" class="btn">Submit</button>
+      <button type="submit" class="btn" id="submitBtn">Submit</button>
     </form>
   </div>
 </main>
+
+<script src="/js/form.js"></script>
 
 <%- include('partials/footer') %>
