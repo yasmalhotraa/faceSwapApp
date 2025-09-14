@@ -1,0 +1,70 @@
+/* terms.css - Minimal styling for Terms & Conditions page */
+
+/* Page container */
+.container {
+  max-width: 800px;
+  margin: 0px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  backdrop-filter: blur(15px);
+}
+
+/* Headings */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ffd700;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+/* Paragraphs */
+p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Lists */
+ol,
+ul {
+  margin: 15px 0 20px 20px;
+  padding-left: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+/* Links */
+a {
+  color: #ffed4e;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #ffd700;
+}
+
+/* Back button */
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: rgba(255, 215, 0, 0.4);
+  transform: translateY(-2px);
+}

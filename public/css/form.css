@@ -18,7 +18,7 @@ form {
     inset 0 -2px 4px rgba(255, 215, 0, 0.1);
   max-width: 600px;
   margin: 40px auto;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
 }
@@ -43,58 +43,9 @@ form::before {
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: xor;
   -webkit-mask-composite: xor;
-  animation: borderRotate 4s linear infinite;
-}
-
-@keyframes borderRotate {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: 400% 0%;
-  }
-}
-
-form::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-      circle at 20% 30%,
-      rgba(255, 215, 0, 0.1) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 70%,
-      rgba(139, 69, 19, 0.08) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(255, 255, 255, 0.03) 0%,
-      transparent 70%
-    );
-  animation: ambientGlow 8s ease-in-out infinite alternate;
-  pointer-events: none;
-  border-radius: inherit;
-}
-
-@keyframes ambientGlow {
-  0% {
-    opacity: 0.3;
-    transform: scale(1) rotate(0deg);
-  }
-  100% {
-    opacity: 0.7;
-    transform: scale(1.1) rotate(180deg);
-  }
 }
 
 form:hover {
-  transform: translateY(-10px) scale(1.02);
   box-shadow: 0 35px 70px rgba(0, 0, 0, 0.6), 0 15px 30px rgba(255, 215, 0, 0.2),
     inset 0 2px 4px rgba(255, 255, 255, 0.15),
     inset 0 -2px 4px rgba(255, 215, 0, 0.15);
@@ -121,19 +72,6 @@ h2 {
   text-shadow: 0 4px 25px rgba(255, 215, 0, 0.6);
   letter-spacing: -0.02em;
   position: relative;
-  animation: titleGlow 3s ease-in-out infinite;
-}
-
-@keyframes titleGlow {
-  0%,
-  100% {
-    background-position: 0% 50%;
-    filter: drop-shadow(0 4px 25px rgba(255, 215, 0, 0.6));
-  }
-  50% {
-    background-position: 100% 50%;
-    filter: drop-shadow(0 8px 35px rgba(255, 215, 0, 0.8));
-  }
 }
 
 h2::after {
@@ -146,18 +84,7 @@ h2::after {
   height: 4px;
   background: linear-gradient(90deg, transparent, #ffd700, transparent);
   border-radius: 2px;
-  animation: underlineGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes underlineGlow {
-  0% {
-    box-shadow: 0 2px 15px rgba(255, 215, 0, 0.6);
-    width: 100px;
-  }
-  100% {
-    box-shadow: 0 4px 25px rgba(255, 215, 0, 0.8);
-    width: 120px;
-  }
+  box-shadow: 0 2px 15px rgba(255, 215, 0, 0.6);
 }
 
 /* Enhanced Form Inputs */
@@ -180,7 +107,7 @@ form input[type="email"] {
   color: rgba(255, 255, 255, 0.95);
   font-size: 1.15rem;
   font-weight: 500;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   outline: none;
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2),
     0 2px 10px rgba(255, 215, 0, 0.05);
@@ -191,7 +118,7 @@ form input[type="text"]::placeholder,
 form input[type="email"]::placeholder {
   color: rgba(255, 255, 255, 0.5);
   font-weight: 400;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 form input[type="text"]:focus,
@@ -203,7 +130,6 @@ form input[type="email"]:focus {
     rgba(139, 69, 19, 0.06) 100%
   );
   border: 1px solid rgba(255, 215, 0, 0.4);
-  transform: translateY(-3px) scale(1.02);
   box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2),
     inset 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 215, 0, 0.1);
   color: #fff;
@@ -212,7 +138,6 @@ form input[type="email"]:focus {
 form input[type="text"]:focus::placeholder,
 form input[type="email"]:focus::placeholder {
   color: rgba(255, 215, 0, 0.7);
-  transform: translateY(-2px);
 }
 
 /* Enhanced File Input */
@@ -234,31 +159,11 @@ form input[type="file"] {
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.15rem;
   font-weight: 500;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   outline: none;
   cursor: pointer;
   position: relative;
   overflow: hidden;
-}
-
-form input[type="file"]::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 215, 0, 0.1),
-    transparent
-  );
-  transition: left 0.6s ease;
-}
-
-form input[type="file"]:hover::before {
-  left: 100%;
 }
 
 form input[type="file"]:hover {
@@ -269,7 +174,6 @@ form input[type="file"]:hover {
     rgba(139, 69, 19, 0.06) 100%
   );
   border-color: rgba(255, 215, 0, 0.4);
-  transform: translateY(-3px) scale(1.01);
   box-shadow: 0 12px 30px rgba(255, 215, 0, 0.2);
 }
 
@@ -286,7 +190,7 @@ form input[type="file"]::file-selector-button {
   font-weight: 700;
   margin-right: 15px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
 }
@@ -297,7 +201,6 @@ form input[type="file"]::file-selector-button:hover {
     rgba(255, 215, 0, 1),
     rgba(255, 193, 7, 1)
   );
-  transform: translateY(-2px) scale(1.05);
   box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
 }
 
@@ -310,13 +213,12 @@ label {
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.15rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
   position: relative;
 }
 
 label:hover {
   color: rgba(255, 215, 0, 0.9);
-  text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
 }
 
 input[type="checkbox"] {
@@ -336,22 +238,9 @@ input[type="checkbox"] {
   );
   border: 2px solid rgba(255, 215, 0, 0.2);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
-}
-
-input[type="checkbox"]::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  width: 8px;
-  height: 8px;
-  background: radial-gradient(circle, #1a1a1a, #000);
-  border-radius: 50%;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 input[type="checkbox"]:checked {
@@ -363,10 +252,6 @@ input[type="checkbox"]:checked {
   border-color: rgba(255, 215, 0, 0.8);
   box-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
     inset 0 2px 4px rgba(255, 255, 255, 0.2);
-}
-
-input[type="checkbox"]:checked::before {
-  transform: translate(-50%, -50%) scale(1);
 }
 
 input[type="checkbox"]:checked::after {
@@ -382,7 +267,6 @@ input[type="checkbox"]:checked::after {
 }
 
 input[type="checkbox"]:hover {
-  transform: scale(1.1);
   box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
   border-color: rgba(255, 215, 0, 0.5);
   background: linear-gradient(
@@ -391,6 +275,20 @@ input[type="checkbox"]:hover {
     rgba(255, 255, 255, 0.08) 50%,
     rgba(139, 69, 19, 0.06) 100%
   );
+}
+
+/* Terms & Conditions */
+.termsLink {
+  color: #ffed4e;
+  text-decoration: underline;
+  font-weight: 600;
+  margin-left: 10px;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.termsLink:hover {
+  color: #ffd700;
+  transform: translateY(-1px);
 }
 
 /* Enhanced Submit Button */
@@ -410,7 +308,7 @@ form button {
   font-size: 1.3rem;
   font-weight: 800;
   margin-top: 25px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   border: 2px solid rgba(255, 215, 0, 0.3);
@@ -424,44 +322,6 @@ form button {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-form button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  transition: left 0.6s ease;
-}
-
-form button::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
-  border-radius: 50%;
-  transition: all 0.4s ease;
-}
-
-form button:hover::before {
-  left: 100%;
-}
-
-form button:hover::after {
-  width: 100%;
-  height: 100%;
-}
-
 form button:hover {
   background: linear-gradient(
     135deg,
@@ -469,7 +329,6 @@ form button:hover {
     rgba(255, 193, 7, 1) 50%,
     rgba(255, 215, 0, 1) 100%
   );
-  transform: translateY(-6px) scale(1.02);
   box-shadow: 0 20px 50px rgba(255, 215, 0, 0.6),
     inset 0 2px 4px rgba(255, 255, 255, 0.4),
     inset 0 -2px 4px rgba(0, 0, 0, 0.1);
@@ -478,7 +337,6 @@ form button:hover {
 }
 
 form button:active {
-  transform: translateY(-3px) scale(1.01);
   box-shadow: 0 15px 35px rgba(255, 215, 0, 0.5),
     inset 0 2px 4px rgba(255, 255, 255, 0.3);
 }

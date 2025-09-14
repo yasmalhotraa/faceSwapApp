@@ -1,0 +1,68 @@
+<%- include('partials/header', { title: 'Terms and Conditions', pageCSS:
+'terms.css' }) %>
+
+<main class="site-main">
+  <div class="container">
+    <h1>Terms and Conditions</h1>
+    <p>Welcome! By using this form app, you agree to the following terms:</p>
+
+    <ol>
+      <li>
+        <strong>Personal Information:</strong> All information provided (Name,
+        Email, Phone) will be stored securely in our database and used only for
+        the purpose of this assignment application.
+      </li>
+
+      <li>
+        <strong>Data Validation:</strong> We will ensure that all submitted data
+        is validated according to the rules:
+        <ul>
+          <li>Name: Alphabet only, length 4–30 characters.</li>
+          <li>Email: Valid email format.</li>
+          <li>Phone: Exactly 10 numeric digits.</li>
+          <li>Terms & Conditions: Must be accepted to submit the form.</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Sanitization:</strong> All input values will be sanitized to
+        strip HTML tags and prevent scripts from being stored or executed.
+      </li>
+
+      <li>
+        <strong>Image Handling:</strong>
+        <ul>
+          <li>Images must be in JPG, JPEG, or PNG format.</li>
+          <li>Maximum file size: 2 MB.</li>
+          <li>Images will be sent to the Face Swap API for processing.</li>
+          <li>
+            Both original and swapped images will be stored securely and can be
+            downloaded by the user.
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Consent:</strong> By submitting the form, you consent to your
+        image being processed by the Face Swap API and stored temporarily in our
+        database.
+      </li>
+
+      <li>
+        <strong>Limitation:</strong> This app is built for educational purposes
+        and assignment evaluation only. The data is not shared with third
+        parties except the Face Swap API for processing.
+      </li>
+
+      <li>
+        <strong>Right to Refuse:</strong> The administrator reserves the right
+        to reject submissions that do not comply with validation rules or terms.
+      </li>
+    </ol>
+
+    <p>Thank you for using our app responsibly!</p>
+    <a href="/" class="btn">Back to Form</a>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

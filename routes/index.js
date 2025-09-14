@@ -12,6 +12,11 @@ router.get("/", (req, res) => {
   res.render("form", { errors: null, old: {} });
 });
 
+// Terms & Conditions page
+router.get("/terms", (req, res) => {
+  res.render("terms");
+});
+
 // Cloudinary download proxy route
 router.get("/download", async (req, res) => {
   const { url, name } = req.query;
