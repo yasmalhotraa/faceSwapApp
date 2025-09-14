@@ -49,4 +49,10 @@ router.post(
 // List all submissions
 router.get("/submissions", submissionController.getSubmissionsPage);
 
+// My Submissions page
+router.get("/my-submissions", submissionController.getMySubmissionsPage);
+
+// Handle My Submissions search
+router.post("/my-submissions", submissionController.searchMySubmissions);
+
 module.exports = router;

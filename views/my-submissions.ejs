@@ -1,0 +1,122 @@
+<%- include('partials/header', { title: 'My Submissions', pageCSS:
+'my-submissions.css' }) %>
+
+<main class="site-main">
+  <div class="container">
+    <div class="search-section">
+      <h2>Find My Submissions</h2>
+      <p class="search-description">
+        Enter your email address or phone number to view your submissions
+      </p>
+
+      <form action="/my-submissions" method="POST" class="search-form">
+        <div class="form-group">
+          <input
+            type="text"
+            name="searchTerm"
+            id="searchTerm"
+            placeholder="Enter your email or phone number"
+            value="<%= searchTerm || '' %>"
+            required
+          />
+          <button type="submit" class="btn search-btn">Search</button>
+        </div>
+
+        <% if (error) { %>
+        <div class="error-message"><%= error %></div>
+        <% } %>
+      </form>
+    </div>
+
+    <% if (searched) { %> <% if (submissions && submissions.length > 0) { %>
+    <div class="results-section">
+      <div class="results-header">
+        <h3>Your Submissions (<%= submissions.length %>)</h3>
+      </div>
+
+      <div class="submissions-grid">
+        <% submissions.forEach(sub => { %>
+        <div class="submission-card">
+          <!-- Card Content -->
+          <div class="card-content">
+            <div class="card-info">
+              <div class="info-row">
+                <span class="info-label">Name</span>
+                <span class="info-value"><%= sub.name %></span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Email</span>
+                <span class="info-value email"><%= sub.email %></span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Phone</span>
+                <span class="info-value"><%= sub.phone %></span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Submitted</span>
+                <span class="info-value">
+                  <%= new Date(sub.createdAt).toLocaleString() %>
+                </span>
+              </div>
+            </div>
+
+            <!-- Image Previews -->
+            <div class="card-image">
+              <div class="image-preview-container">
+                <h4>Original</h4>
+                <img
+                  src="<%= sub.originalImage %>"
+                  alt="Original"
+                  class="image-preview"
+                  onclick="window.open(this.src, '_blank')"
+                />
+              </div>
+              <div class="image-preview-container">
+                <h4>Face Swapped</h4>
+                <img
+                  src="<%= sub.swappedImage %>"
+                  alt="Swapped"
+                  class="image-preview"
+                  onclick="window.open(this.src, '_blank')"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Actions -->
+          <div class="card-actions">
+            <a
+              href="/download?url=<%= encodeURIComponent(sub.originalImage) %>&name=original_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
+              class="action-btn secondary"
+            >
+              Download Original
+            </a>
+            <a
+              href="/download?url=<%= encodeURIComponent(sub.swappedImage) %>&name=swapped_<%= sub.name.replace(/\s+/g, '_') %>.jpg"
+              class="action-btn"
+            >
+              Download Swapped
+            </a>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+    <% } else { %>
+    <div class="no-submissions">
+      <h3>📭 No submissions found</h3>
+      <p>
+        No submissions found for "<%= searchTerm %>". Please check your email or
+        phone number and try again.
+      </p>
+      <a href="/" class="back-btn">🚀 Submit Your First Photo</a>
+    </div>
+    <% } %> <% } %>
+
+    <div class="bottom-actions">
+      <a href="/" class="back-btn">➕ Add New Submission</a>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>
